@@ -9,7 +9,7 @@
     <div class="border-2 text-gray-700 border-gray-200 rounded-md py-2 px-3 text-xs hover:bg-gray-200 cursor-pointer">
       <i class="fas fa-refresh"></i>
     </div>
-    <div class="text-xs bg-blue-500 py-2 px-3 rounded-md shadow-md text-gray-200 cursor-pointer hover:opacity-70">
+    <div class="border-2 border-blue-500 text-xs bg-blue-500 py-2 px-3 rounded-md shadow-md text-gray-200 cursor-pointer hover:opacity-70">
       <i class="fas fa-add"></i>
       Tambah Data
     </div>
