@@ -12,7 +12,7 @@ foreach ($menu as $col) {
   $aktif = (strpos($halamanAktif, $col['url']) === 0); ?>
   <div onclick="window.location.href='<?= htmlspecialchars($col['url'], ENT_QUOTES) ?>'"
     class="py-2 px-3 rounded-md hover:shadow-md hover:bg-blue-500 hover:text-white cursor-pointer mb-3 <?= $aktif ? 'bg-blue-500 text-white shadow-md' : '' ?>">
-    <i class="fas <?= $col['icon'] ?>"></i>
+    <i class="fas <?= $col['icon'] ?> fa-fw"></i>
     <?= $col["label"] ?>
   </div>
 <?php } ?>
