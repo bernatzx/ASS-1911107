@@ -1,6 +1,6 @@
 <?php include_once __DIR__ . "/../../layout/header.php"; ?>
 
-<div class="font-bold">
+<div class="font-bold mb-[60px]">
   <span>Beranda</span>
   <br>
   <span class="text-gray-400 text-sm">Selamat datang Admin</span>

@@ -10,6 +10,8 @@ require_once __DIR__ . "/../../app/init.php";
   <title>Sistem Informasi Geografis Pemetaan Pohon Mangrove</title>
   <script src="<?= base("/src/assets/js/all.min.js") ?>" defer></script>
   <script src="<?= base("/src/assets/js/tailwindcss.js") ?>"></script>
+  <script src="<?= base("/src/assets/js/leaflet.js") ?>"></script>
+  <link rel="stylesheet" href="<?= base("/src/assets/css/leaflet.css") ?>">
   <style>
     @font-face {
       font-family: 'Poppins';
@@ -63,4 +65,4 @@ require_once __DIR__ . "/../../app/init.php";
       </div>
     </div>
 
-    <div class="flex-auto p-5 space-y-[60px]">
+    <div class="flex-auto p-5">
