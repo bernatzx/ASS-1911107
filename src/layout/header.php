@@ -46,7 +46,16 @@ require_once __DIR__ . "/../../app/init.php";
       <div class="flex-auto">
         <?php require_once __DIR__ . "/../components/navbar.php"; ?>
       </div>
-      <div class="cursor-pointer hover:bg-red-400 py-2 px-3 rounded-md hover:shadow-md flex gap-3">
+
+      <div id="login-btn" class="hidden cursor-pointer hover:bg-blue-500 py-2 px-3 rounded-md hover:shadow-md flex gap-3">
+        <div>
+          <i class="fas fa-user-tie fa-fw"></i>
+        </div>
+        <div>
+          Login
+        </div>
+      </div>
+      <div id="logout-btn" class="hidden cursor-pointer hover:bg-red-400 py-2 px-3 rounded-md hover:shadow-md flex gap-3">
         <div>
           <i class="fas fa-door-open fa-fw"></i>
         </div>
