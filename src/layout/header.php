@@ -40,21 +40,8 @@ require_once __DIR__ . "/../../app/init.php";
 <body>
   <main class="flex font-medium bg-white">
     <div class="fixed h-screen flex flex-col w-[300px] p-5" style="background-color: #c9c6c6;">
-      <div class="mb-[50px] flex grover">
-        <div class="mt-[4px]">
-          <img style="height: 62px;" src="<?= base("/src/assets/img/logo.png") ?>" alt="logo">
-        </div>
-        <div class="text-7xl">
-          M
-        </div>
-        <div class="text-2xl">
-          <div class="mt-[12px] mb-[-8px]">
-            angrovee
-          </div>
-          <div>
-            aluku Utara
-          </div>
-        </div>
+      <div class="mb-[50px]">
+        <?php require_once __DIR__ . "/../components/logo.php"; ?>
       </div>
       <div class="flex-auto">
         <?php require_once __DIR__ . "/../components/navbar.php"; ?>
