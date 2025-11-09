@@ -15,12 +15,12 @@ require_once __DIR__ . "/../../app/init.php";
   <style>
     @font-face {
       font-family: 'Poppins';
-      src: url('./../assets/fonts/Poppins-Regular.ttf') format('truetype');
+      src: url('<?= base("src/assets/fonts/Poppins-Regular.ttf") ?>') format('truetype');
     }
 
     @font-face {
       font-family: 'Irish Grover';
-      src: url('./../assets/fonts/IrishGrover-Regular.ttf') format('truetype');
+      src: url('<?= base("src/assets/fonts/IrishGrover-Regular.ttf") ?>') format('truetype');
     }
 
     body {
@@ -38,8 +38,8 @@ require_once __DIR__ . "/../../app/init.php";
 </head>
 
 <body>
-  <main class="flex h-screen font-medium bg-white">
-    <div class="flex flex-col w-[300px] p-5" style="background-color: #c9c6c6;">
+  <main class="flex font-medium bg-white">
+    <div class="fixed h-screen flex flex-col w-[300px] p-5" style="background-color: #c9c6c6;">
       <div class="mb-[50px] flex grover">
         <div class="mt-[4px]">
           <img style="height: 62px;" src="<?= base("/src/assets/img/logo.png") ?>" alt="logo">
@@ -65,4 +65,4 @@ require_once __DIR__ . "/../../app/init.php";
       </div>
     </div>
 
-    <div class="flex-auto p-5">
+    <div class="flex-auto p-5 ml-[300px]">
