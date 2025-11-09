@@ -32,8 +32,8 @@
         </th>
       </tr>
     </thead>
-    <tbody>
-      <tr class="odd:bg-white even:bg-gray-50">
+    <tbody id="data-body">
+      <!-- <tr class="odd:bg-white even:bg-gray-50">
         <td class="tracking-wider text-left p-3">1</td>
         <td class="tracking-wider text-left p-3">Rhizophora apiculata</td>
         <td class="tracking-wider text-left p-3">Bakau Minyak</td>
@@ -48,24 +48,81 @@
             <i class="fas fa-trash"></i>
           </div>
         </td>
-      </tr>
-      <tr class="odd:bg-white even:bg-gray-50">
-        <td class="tracking-wider text-left p-3">1</td>
-        <td class="tracking-wider text-left p-3">Rhizophora apiculata</td>
-        <td class="tracking-wider text-left p-3">Bakau Minyak</td>
-        <td class="tracking-wider text-left p-3">Kel. Maftutu</td>
-        <td class="tracking-wider text-left p-3">Maftutu</td>
-        <td class="tracking-wider text-left p-3">Tidore</td>
-        <td class="tracking-wider justify-center p-3 flex gap-2">
-          <div class="border border-yellow-600 py-1 px-2 text-yellow-600 rounded-md cursor-pointer hover:bg-gray-200">
-            <i class="fas fa-pencil"></i>
-          </div>
-          <div class="border border-red-600 py-1 px-2 text-red-600 rounded-md cursor-pointer hover:bg-gray-200">
-            <i class="fas fa-trash"></i>
-          </div>
-        </td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </div>
+
+<script>
+  const tbody = document.getElementById("data-body");
+  (async () => {
+    try {
+      const res = await fetch("/api/pohon.php", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) throw new Error("Gagal mengambil data");
+      const data = await res.json();
+      if (!data.data || data.data.length === 0) {
+        tbody.className = "text-center";
+        tbody.innerHTML = "<tr><td colspan='7' class='p-3'>Belum ada data</td></tr>";
+        return;
+      }
+
+      const el = (tag, className = "", text = "") => {
+        const e = document.createElement(tag);
+        if (className) e.className = className;
+        if (text) e.textContent = text;
+        return e;
+      };
+
+      const tdClass = "tracking-wider text-left p-3";
+      const tdAksiClass = "tracking-wider justify-center p-3 flex gap-2";
+
+      data.data.forEach((row, i) => {
+        const tr = el("tr", "odd:bg-white even:bg-gray-50");
+
+        const tdNo = el("td", tdClass, i + 1);
+        const tdPohon = el("td", tdClass, row.nama_pohon);
+        const tdJenis = el("td", tdClass, row.jenis_pohon);
+        const tdLokasi = el("td", tdClass, row.lokasi);
+        const tdDesa = el("td", tdClass, row.desa);
+        const tdKota = el("td", tdClass, row.kota);
+
+        const tdAksi = el("td", tdAksiClass)
+
+        const hapus = el("a", "border border-red-600 py-1 px-2 text-red-600 rounded-md cursor-pointer hover:bg-gray-200", "Hapus")
+        const edit = el("a", "border border-yellow-600 py-1 px-2 text-yellow-600 rounded-md cursor-pointer hover:bg-gray-200", "Edit")
+
+
+      hapus.addEventListener("click", async () => {
+        if (confirm(`Yakin akan data ${row.nama_kriteria}?`)) {
+          const res = await fetch(`/api/kriteria.php?id=${row.id_kriteria}`, {
+            method: "DELETE",
+          });
+          const result = await res.json();
+          if (result.success) {
+            window.location.reload();
+          } else {
+            alert(result.msg);
+          }
+        }
+      });
+
+      edit.addEventListener("click", () => {
+        window.location.href = `/kriteria/form?id=${row.id_kriteria}`;
+      });
+
+      tdAksi.append(hapus, edit);
+
+      tr.append(tdNo, tdPohon, tdJenis, tdLokasi, tdDesa, tdKota);
+
+      tbody.append(tr);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+</script>
+
 <?php include_once __DIR__ . "/../../layout/footer.php"; ?>

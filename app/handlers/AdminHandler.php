@@ -42,4 +42,11 @@ class AdminHandler
     }
     return ["valid" => false, "role" => "guest"];
   }
+
+  public function logout()
+  {
+    $_SESSION = [];
+    session_destroy();
+    return ["success" => true];
+  }
 }

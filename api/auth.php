@@ -15,13 +15,13 @@ try {
             switch ($action) {
                 case 'login':
                     $username = $input['username'] ?? '';
-                    $password = $input['password'] ?? '';
-                    echo json_encode($auth->login($username, $password));
+                    $sandi = $input['sandi'] ?? '';
+                    echo json_encode($auth->login($username, $sandi));
                     break;
 
-                // case 'logout':
-                //     echo json_encode($auth->logout());
-                //     break;
+                case 'logout':
+                    echo json_encode($auth->logout());
+                    break;
 
                 case 'me':
                     echo json_encode($auth->me());
@@ -32,6 +32,9 @@ try {
                     echo json_encode(['success' => false, 'msg' => 'Aksi tidak diizinkan']);
                     break;
             }
+            break;
+        case 'GET':
+            echo json_encode($auth->getAll());
             break;
         default:
             http_response_code(405);

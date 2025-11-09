@@ -48,7 +48,7 @@ require_once __DIR__ . "/../../../app/init.php";
     <div class="flex items-center h-full">
       <div class="bg-gray-200 w-full max-w-xs m-auto p-5 rounded-md">
         <h2 class="text-center mb-5 text-xl capitalize font-semibold">login admin</h2>
-        <form>
+        <form id="login-form">
           <div class="mb-4">
             <label class="mb-2 text-sm block">Username</label>
             <input class="block w-full p-2 border border-gray-300 bg-gray-50 text-sm rounded-md" type="text"
@@ -57,15 +57,80 @@ require_once __DIR__ . "/../../../app/init.php";
           <div class="mb-4">
             <label class="mb-2 text-sm block">Kata Sandi</label>
             <input class="block w-full p-2 border border-gray-300 bg-gray-50 text-sm rounded-md" type="password"
-              name="sandi" required>
+              name="sandi" id="sandi" required>
           </div>
-          <div class="bg-blue-500 cursor-pointer flex justify-center font-medium hover:opacity-70 p-1 rounded-md text-white">
+          <div class="mb-4 flex items-center gap-2">
+            <input type="checkbox" id="show-sandi" class="w-4 h-4 cursor-pointer">
+            <label for="show-sandi" class="text-sm text-gray-700 cursor-pointer select-none">
+              Tampilkan kata sandi
+            </label>
+          </div>
+          <div id="errorBox"
+            class="hidden mb-4 font-medium text-sm flex items-center gap-2 p-2 bg-red-400 text-red-800 rounded-md">
+            <i class="fas fa-circle-info"></i>
+            <span id="errorMsg" class="flex-auto"></span>
+            <div id="closeErrorBoxBtn">
+              <i class="cursor-pointer fas fa-times"></i>
+            </div>
+          </div>
+          <button type="submit"
+            class="bg-blue-500 w-full flex justify-center font-medium hover:opacity-70 p-1 rounded-md text-white">
             Login
-          </div>
+          </button>
         </form>
       </div>
     </div>
   </main>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const errorBox = document.getElementById('errorBox');
+    const errorMsg = document.getElementById('errorMsg');
+    const closeErrorBoxBtn = document.getElementById('closeErrorBoxBtn');
+    const inputSandi = document.getElementById('sandi');
+    const showSandi = document.getElementById('show-sandi');
+
+    showSandi.addEventListener('change', () => {
+      inputSandi.type = showSandi.checked ? 'text' : 'password';
+    });
+
+    if (closeErrorBoxBtn) {
+      closeErrorBoxBtn.addEventListener('click', () => {
+        errorBox.classList.toggle('hidden');
+      });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      for (let key in data) {
+        if (!data[key]) {
+          errorMsg.textContent = "Semua field wajib diisi.";
+          errorBox.classList.remove("hidden");
+          return;
+        }
+      }
+      try {
+        const res = await fetch("/api/auth.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "login", ...data })
+        });
+        const result = await res.json();
+        if (result.success) {
+          window.location = '<?= base() ?>';
+        } else {
+          errorMsg.textContent = result.msg;
+          errorBox.classList.remove('hidden');
+        }
+      } catch (error) {
+        errorMsg.textContent = 'Terjadi kesalahan.';
+        errorBox.classList.remove('hidden');
+      }
+    })
+  </script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@
     Kembali
   </div>
 </div>
-<form class="max-w-lg mx-auto">
+<form class="max-w-lg mx-auto" id="add-form">
   <div class="mb-5">
     <label class="block text-sm mb-2">Nama Pohon</label>
     <input class="block w-full bg-gray-50 border border-gray-300 text-gray-900 p-2 text-sm rounded-md" type="text"
@@ -66,4 +66,9 @@
     </div>
   </div>
 </form>
+
+<script>
+  const form = document.getElementById("add-form");
+  
+</script>
 <?php include_once __DIR__ . "/../../layout/footer.php"; ?>

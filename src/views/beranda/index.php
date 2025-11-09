@@ -3,14 +3,17 @@
 <div class="font-bold mb-[60px]">
   <span>Beranda</span>
   <br>
-  <span class="text-gray-400 text-sm">Selamat datang Admin</span>
+  <span id="greet" class="text-gray-400 text-sm"></span>
 </div>
-<div class="w-[600px] m-auto space-y-[60px] text-center">
+<div class="w-[600px] m-auto text-center">
   <div style="text-transform: uppercase;" class="font-medium text-xl">
     sistem informasi geografis untuk pemetaan pohon manghrove di kota ternate dan kota tidore
   </div>
+  <div class="mt-2 text-gray-400 cursor-pointer" onclick="window.location.href='<?= base('src/views/peta') ?>'">
+    Lihat Peta ->
+  </div>
   <!-- STATISTIK SEDERHANA -->
-  <div class="flex justify-between font-bold">
+  <div id="admin-only" class="flex justify-between font-bold mt-[60px]">
     <div>
       <span class="text-7xl">15</span>
       <br>
