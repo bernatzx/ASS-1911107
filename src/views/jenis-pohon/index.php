@@ -10,7 +10,7 @@
       class="border-2 text-gray-700 border-gray-200 rounded-md py-2 px-3 text-xs hover:bg-gray-200 cursor-pointer">
       <i class="fas fa-refresh"></i>
     </div>
-    <div onclick="window.location.href='<?= base('src/views/jenis-pohon/add.php') ?>'"
+    <div onclick="window.location.href='<?= base('src/views/jenis-pohon/form.php') ?>'"
       class="border-2 border-blue-500 text-xs bg-blue-500 py-2 px-3 rounded-md shadow-md text-gray-200 cursor-pointer hover:opacity-70">
       <i class="fas fa-add"></i>
       Tambah Data
@@ -28,32 +28,7 @@
         </th>
       </tr>
     </thead>
-    <tbody>
-      <tr class="odd:bg-white even:bg-gray-50">
-        <td class="tracking-wider text-left p-3">1</td>
-        <td class="tracking-wider text-left p-3">Bakau Minyak</td>
-        <td class="tracking-wider justify-center p-3 flex gap-2">
-          <div class="border border-yellow-600 py-1 px-2 text-yellow-600 rounded-md cursor-pointer hover:bg-gray-200">
-            <i class="fas fa-pencil"></i>
-          </div>
-          <div class="border border-red-600 py-1 px-2 text-red-600 rounded-md cursor-pointer hover:bg-gray-200">
-            <i class="fas fa-trash"></i>
-          </div>
-        </td>
-      </tr>
-      <tr class="odd:bg-white even:bg-gray-50">
-        <td class="tracking-wider text-left p-3">1</td>
-        <td class="tracking-wider text-left p-3">Bakau Minyak</td>
-        <td class="tracking-wider justify-center p-3 flex gap-2">
-          <div class="border border-yellow-600 py-1 px-2 text-yellow-600 rounded-md cursor-pointer hover:bg-gray-200">
-            <i class="fas fa-pencil"></i>
-          </div>
-          <div class="border border-red-600 py-1 px-2 text-red-600 rounded-md cursor-pointer hover:bg-gray-200">
-            <i class="fas fa-trash"></i>
-          </div>
-        </td>
-      </tr>
-    </tbody>
+    <tbody id="data-body"></tbody>
   </table>
 </div>
 
@@ -61,7 +36,7 @@
   const tbody = document.getElementById("data-body");
   (async () => {
     try {
-      const res = await fetch("/api/pohon.php", {
+      const res = await fetch("/api/jenis.php", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -87,21 +62,15 @@
         const tr = el("tr", "odd:bg-white even:bg-gray-50");
 
         const tdNo = el("td", tdClass, i + 1);
-        const tdPohon = el("td", tdClass, row.nama_pohon);
         const tdJenis = el("td", tdClass, row.jenis_pohon);
-        const tdLokasi = el("td", tdClass, row.lokasi);
-        const tdDesa = el("td", tdClass, row.desa);
-        const tdKota = el("td", tdClass, row.kota);
-
         const tdAksi = el("td", tdAksiClass)
 
         const hapus = el("a", "border border-red-600 py-1 px-2 text-red-600 rounded-md cursor-pointer hover:bg-gray-200", "Hapus")
         const edit = el("a", "border border-yellow-600 py-1 px-2 text-yellow-600 rounded-md cursor-pointer hover:bg-gray-200", "Edit")
 
-
         hapus.addEventListener("click", async () => {
-          if (confirm(`Yakin akan data ${row.nama_kriteria}?`)) {
-            const res = await fetch(`/api/kriteria.php?id=${row.id_kriteria}`, {
+          if (confirm(`Yakin akan jenis ${row.jenis_pohon}?`)) {
+            const res = await fetch(`/api/jenis.php?id=${row.id}`, {
               method: "DELETE",
             });
             const result = await res.json();
@@ -114,12 +83,12 @@
         });
 
         edit.addEventListener("click", () => {
-          window.location.href = `/kriteria/form?id=${row.id_kriteria}`;
+          window.location.href = "<?= base('src/views/jenis-pohon/form.php') ?>?id=" + row.id;
         });
 
         tdAksi.append(hapus, edit);
 
-        tr.append(tdNo, tdPohon, tdJenis, tdLokasi, tdDesa, tdKota);
+        tr.append(tdNo, tdJenis, tdAksi);
 
         tbody.append(tr);
       });
