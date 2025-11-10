@@ -20,8 +20,8 @@ try {
     case 'PUT':
       echo json_encode($jenis->updateData($id, $input));
       break;
-      case 'DELETE':
-        echo json_encode($jenis->deleteData($id));
+    case 'DELETE':
+      echo json_encode($jenis->deleteData($id));
       break;
     default:
       http_response_code(405);

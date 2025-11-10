@@ -2,7 +2,6 @@
 <div class="mb-[30px] flex items-center justify-between">
   <div class="font-bold">
     <div><span id="form-title"></span> Data Jenis Pohon</div>
-    <br>
     <div class="text-gray-400 text-sm"><span id="form-subtitle"></span> data jenis pohon yang telah didapatkan</div>
   </div>
   <div onclick="window.location.href='<?= base('src/views/jenis-pohon') ?>'"

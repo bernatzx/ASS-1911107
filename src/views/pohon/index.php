@@ -10,7 +10,7 @@
       class="border-2 text-gray-700 border-gray-200 rounded-md py-2 px-3 text-xs hover:bg-gray-200 cursor-pointer">
       <i class="fas fa-refresh"></i>
     </div>
-    <div onclick="window.location.href='<?= base('src/views/pohon/add.php') ?>'"
+    <div onclick="window.location.href='<?= base('src/views/pohon/form.php') ?>'"
       class="border-2 border-blue-500 text-xs bg-blue-500 py-2 px-3 rounded-md shadow-md text-gray-200 cursor-pointer hover:opacity-70">
       <i class="fas fa-add"></i>
       Tambah Data
@@ -85,7 +85,7 @@
         const tdNo = el("td", tdClass, i + 1);
         const tdPohon = el("td", tdClass, row.nama_pohon);
         const tdJenis = el("td", tdClass, row.jenis_pohon);
-        const tdLokasi = el("td", tdClass, row.lokasi);
+        const tdLokasi = el("td", tdClass, row.nama_lokasi);
         const tdDesa = el("td", tdClass, row.desa);
         const tdKota = el("td", tdClass, row.kota);
 
@@ -95,29 +95,30 @@
         const edit = el("a", "border border-yellow-600 py-1 px-2 text-yellow-600 rounded-md cursor-pointer hover:bg-gray-200", "Edit")
 
 
-      hapus.addEventListener("click", async () => {
-        if (confirm(`Yakin akan data ${row.nama_kriteria}?`)) {
-          const res = await fetch(`/api/kriteria.php?id=${row.id_kriteria}`, {
-            method: "DELETE",
-          });
-          const result = await res.json();
-          if (result.success) {
-            window.location.reload();
-          } else {
-            alert(result.msg);
+        hapus.addEventListener("click", async () => {
+          if (confirm(`Yakin akan pohom ${row.nama_pohon}?`)) {
+            const res = await fetch(`/api/pohon.php?id=${row.id}`, {
+              method: "DELETE",
+            });
+            const result = await res.json();
+            console.log(result);
+            if (result.success) {
+              window.location.reload();
+            } else {
+              alert(result.msg);
+            }
           }
-        }
-      });
+        });
 
-      edit.addEventListener("click", () => {
-        window.location.href = `/kriteria/form?id=${row.id_kriteria}`;
-      });
+        edit.addEventListener("click", () => {
+          window.location.href = "<?= base('src/views/pohon/form.php') ?>?id=" + row.id;
+        });
 
-      tdAksi.append(hapus, edit);
+        tdAksi.append(hapus, edit);
 
-      tr.append(tdNo, tdPohon, tdJenis, tdLokasi, tdDesa, tdKota);
+        tr.append(tdNo, tdPohon, tdJenis, tdLokasi, tdDesa, tdKota, tdAksi);
 
-      tbody.append(tr);
+        tbody.append(tr);
       });
     } catch (error) {
       console.error(error);
