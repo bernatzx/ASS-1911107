@@ -130,6 +130,7 @@
         headers: { "Content-Type": "application/json" }
       })
       const result = await res.json();
+      console.log(result);
       if (result.success && result.data) {
         Object.keys(result.data).forEach((key) => {
           if (form.elements[key]) {
