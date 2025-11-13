@@ -1,5 +1,4 @@
 <?php include_once __DIR__ . "/../../layout/header.php"; ?>
-
 <div class="font-bold mb-[60px]">
   <span>Beranda</span>
   <br>
@@ -15,13 +14,13 @@
   <!-- STATISTIK SEDERHANA -->
   <div id="admin-only" class="flex justify-between font-bold mt-[60px]">
     <div>
-      <span class="text-7xl">15</span>
+      <span id="total-lokasi" class="text-7xl"></span>
       <br>
-      <span class="text-gray-400">Pohon</span>
+      <span class="text-gray-400">Lokasi</span>
     </div>
     <div class="border-gray-200 border-2"></div>
     <div>
-      <span class="text-7xl">11</span>
+      <span id="total-jenis" class="text-7xl"></span>
       <br>
       <span class="text-gray-400">Jenis Pohon</span>
     </div>

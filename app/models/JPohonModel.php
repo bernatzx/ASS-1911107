@@ -7,16 +7,18 @@ class JPohonModel
   public function insert(array $data)
   {
     global $db;
-    $stm = $db->prepare("INSERT INTO tb_jenis (jenis_pohon) VALUE (:jenis)");
+    $stm = $db->prepare("INSERT INTO tb_jenis (jenis_pohon, gambar) VALUE (:jenis, :gambar)");
     $stm->bindParam(':jenis', $data['jenis_pohon']);
+    $stm->bindParam(':gambar', $data['gambar']);
     return $stm->execute();
   }
 
   public function update(int $id, array $data)
   {
     global $db;
-    $stm = $db->prepare("UPDATE tb_jenis SET jenis_pohon = :jenis WHERE id = :id");
+    $stm = $db->prepare("UPDATE tb_jenis SET jenis_pohon = :jenis, gambar = :gambar WHERE id = :id");
     $stm->bindParam(':jenis', $data['jenis_pohon']);
+    $stm->bindParam(':gambar', $data['gambar']);
     $stm->bindParam(':id', $id, PDO::PARAM_INT);
     return $stm->execute();
   }

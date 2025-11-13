@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . "/../models/PohonModel.php";
+require_once __DIR__ . "/../models/LokasiModel.php";
 
-class PohonHandler
+class LokasiHandler
 {
-  private PohonModel $pohon;
+  private LokasiModel $lokasi;
   public function __construct()
   {
-    $this->pohon = new PohonModel();
+    $this->lokasi = new LokasiModel();
 
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
@@ -16,17 +16,11 @@ class PohonHandler
 
   public function insertData(array $data)
   {
-    $temp = $data;
-    unset($temp['gambar']);
-
-    if (in_array("", $temp, true)) {
-      return ['success' => false, 'msg' => "Semua field wajib diisi (kecuali gambar)."];
-    }
-    $exists = $this->pohon->findByPohon($data['nama_pohon']);
+    $exists = $this->lokasi->findByLokasi($data['nama_lokasi']);
     if ($exists) {
-      return ['success' => false, 'msg' => 'Pohon sudah terdaftar'];
+      return ['success' => false, 'msg' => 'Lokasi sudah terdaftar'];
     }
-    $inserted = $this->pohon->insert($data);
+    $inserted = $this->lokasi->insert($data);
     if ($inserted) {
       return ['success' => true, 'msg' => 'Data berhasil ditambahkan'];
     }
@@ -35,7 +29,7 @@ class PohonHandler
 
   public function getById(int $id)
   {
-    $data = $this->pohon->findById($id);
+    $data = $this->lokasi->findById($id);
     if ($data) {
       return ['success' => true, 'data' => $data];
     }
@@ -44,36 +38,35 @@ class PohonHandler
 
   public function updateData(int $id, array $data)
   {
-    $temp = $data;
-    unset($temp['gambar']);
-
-    if (in_array("", $temp, true)) {
-      return ['success' => false, 'msg' => "Semua field wajib diisi (kecuali gambar)."];
+    $existing = $this->lokasi->findById($id);
+    if (!$existing) {
+      return ['success' => false, 'msg' => 'Data tidak ditemukan'];
     }
-    $updated = $this->pohon->update($id, $data);
+    $updated = $this->lokasi->update($id, $data);
     if ($updated) {
       return ['success' => true, 'msg' => 'Data berhasil diubah'];
     }
     return ['success' => false, 'msg' => 'Gagal mengubah data'];
   }
 
+
   public function deleteData(int $id)
   {
-    $exists = $this->pohon->findById($id);
+    $exists = $this->lokasi->findById($id);
     if (!$exists) {
       return ['success' => false, 'msg' => 'Data tidak ditemukan'];
     }
 
-    $deleted = $this->pohon->delete((int) $id, (int) $exists['id_lokasi']);
+    $deleted = $this->lokasi->delete($id);
     if ($deleted) {
       return ['success' => true, 'msg' => 'Data berhasil dihapus'];
     }
     return ['success' => false, 'msg' => 'Gagal menghapus data'];
   }
 
-  public function getByPohon($pohon): array
+  public function getByLokasi($pohon): array
   {
-    $data = $this->pohon->findByPohon($pohon);
+    $data = $this->lokasi->findByLokasi($pohon);
     if ($data) {
       return ["success" => true, "data" => $data];
     }
@@ -82,7 +75,7 @@ class PohonHandler
 
   public function getAll()
   {
-    $data = $this->pohon->findAll();
+    $data = $this->lokasi->findAll();
     if ($data && count($data) > 0) {
       return ["success" => true, "data" => $data];
     }

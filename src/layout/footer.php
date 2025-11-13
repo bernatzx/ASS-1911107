@@ -11,7 +11,7 @@
 
   async function logout() {
     try {
-      const res = await fetch("/api/auth.php", {
+      const res = await fetch("<?= base('/api/auth.php') ?>", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "logout" }),
@@ -25,9 +25,36 @@
     }
   }
 
-  (async () => {
+  async function totalLokasi() {
+    const el = document.getElementById('total-lokasi');
     try {
-      const res = await fetch("/api/auth.php", {
+      const res = await fetch("<?= base('api/lokasi.php') ?>");
+      const data = await res.json();
+      if (data.success) {
+        el.textContent = data.data.length;
+      }
+    } catch (err) {
+      console.error("Gagal menggapai API:", err);
+    }
+  }
+
+  async function totalJenis() {
+    const el = document.getElementById('total-jenis');
+    try {
+      const res = await fetch("<?= base('api/jenis.php') ?>");
+      const data = await res.json();
+      if (data.success) {
+        el.textContent = data.data.length;
+      }
+    } catch (err) {
+      console.error("Gagal menggapai API:", err);
+    }
+  }
+
+  (async () => {
+
+    try {
+      const res = await fetch("<?= base('/api/auth.php') ?>", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -47,6 +74,8 @@
     }
 
     if (sessionRole === "admin" && valid) {
+      await totalLokasi();
+      await totalJenis();
       logoutBtn.classList.remove('hidden');
       gt.innerText = 'Selamat datang Admin';
     }

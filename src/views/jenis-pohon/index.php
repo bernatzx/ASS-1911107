@@ -34,9 +34,9 @@
 
 <script>
   const tbody = document.getElementById("data-body");
-  (async () => {
+  async function loadData() {
     try {
-      const res = await fetch("/api/jenis.php", {
+      const res = await fetch("<?= base('/api/jenis.php') ?>", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -70,7 +70,7 @@
 
         hapus.addEventListener("click", async () => {
           if (confirm(`Yakin akan jenis ${row.jenis_pohon}?`)) {
-            const res = await fetch(`/api/jenis.php?id=${row.id}`, {
+            const res = await fetch(`<?= base('/api/jenis.php') ?>?id=${row.id}`, {
               method: "DELETE",
             });
             const result = await res.json();
@@ -94,6 +94,28 @@
       });
     } catch (error) {
       console.error(error);
+    }
+  }
+  (async () => {
+    let valid = false;
+    try {
+      const res = await fetch("<?= base('/api/auth.php') ?>", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ action: "me" }),
+      });
+      const data = await res.json();
+      sessionRole = data.role || "guest";
+      valid = !!data.valid;
+    } catch (err) {
+      console.error("Gagal memeriksa sesi:", err);
+    }
+
+    if (sessionRole !== 'admin' || !valid) {
+      window.location.href = "<?= base('src/views/auth') ?>";
+    } else {
+      loadData();
     }
   })();
 </script>

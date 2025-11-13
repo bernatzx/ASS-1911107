@@ -16,6 +16,13 @@
     <input class="block w-full bg-gray-50 border border-gray-300 text-gray-900 p-2 text-sm rounded-md" type="text"
       name="jenis_pohon">
   </div>
+  <div class="mb-5">
+    <label class="block text-sm mb-2">Gambar</label>
+    <input class="block w-full bg-gray-50 border border-gray-300 text-gray-900 p-2 text-sm rounded-md" type="file"
+      name="gambar" accept="image/*">
+  </div>
+  <input type="hidden" name="gambar-lama">
+  <img class="mb-5 h-40 w-full hidden object-cover rounded-md border" id="preview">
   <div id="errorBox"
     class="hidden mb-4 font-medium text-sm flex items-center gap-2 p-2 bg-red-400 text-red-800 rounded-md">
     <i class="fas fa-circle-info"></i>
@@ -40,6 +47,19 @@
   const errorBox = document.getElementById('errorBox');
   const errorMsg = document.getElementById('errorMsg');
   const closeErrorBoxBtn = document.getElementById('closeErrorBoxBtn');
+  const imgPreview = document.getElementById('preview');
+
+  form.gambar.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imgPreview.src = ev.target.result;
+        imgPreview.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
   // CEK TIPE FORM ANTARA EDIT ATAU TAMBAH
   const urlParams = new URLSearchParams(window.location.search);
@@ -48,18 +68,22 @@
     if (id) {
       formTitle.textContent = "Edit";
       formSubtitle.textContent = "Edit";
-      const res = await fetch(`/api/jenis.php?id=${id}`, {
+      const res = await fetch(`<?= base('/api/jenis.php') ?>?id=${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       })
       const result = await res.json();
       console.log(result.data);
       if (result.success && result.data) {
-        Object.keys(result.data).forEach((key) => {
-          if (form.elements[key]) {
-            form.elements[key].value = result.data[key];
-          }
-        })
+
+        const d = result.data;
+        if (form.elements["jenis_pohon"]) form.elements["jenis_pohon"].value = d.jenis_pohon || "";
+
+        if (d.gambar) {
+          form.elements["gambar-lama"].value = d.gambar;
+          imgPreview.src = "<?= base('/uploads/') ?>" + d.gambar;
+          imgPreview.classList.remove("hidden");
+        }
       } else {
         alert(result.msg || 'Data tidak ditemukan');
       }
@@ -81,15 +105,12 @@
     e.preventDefault();
 
     const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
-
-    if (id) payload.id = id;
+    if (id) formData.append('id', id);
 
     try {
-      const res = await fetch(`/api/jenis.php${id ? `?id=${id}` : ""}`, {
-        method: id ? "PUT" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+      const res = await fetch(`<?= base('/api/jenis.php') ?>${id ? `?id=${id}` : ""}`, {
+        method: "POST",
+        body: formData
       })
       const data = await res.json();
       if (data.success) {

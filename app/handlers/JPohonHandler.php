@@ -17,7 +17,7 @@ class JPohonHandler
   public function insertData(array $data)
   {
     if (empty(trim($data['jenis_pohon'] ?? ''))) {
-      return ['success' => false, 'msg' => "Semua field wajib diisi."];
+      return ['success' => false, 'msg' => "Jenis wajib diisisssss."];
     }
     $exists = $this->jenis->findByJenis($data['jenis_pohon']);
     if ($exists) {

@@ -6,19 +6,35 @@ header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 
 $jenis = new JPohonHandler();
-$input = json_decode(file_get_contents('php://input'), true);
+$input = $_POST;
+
+if (!empty($_FILES['gambar']['name'])) {
+  $targetDir = __DIR__ . '/../uploads/';
+  if (!is_dir($targetDir)) {
+    mkdir($targetDir, 0777, true);
+  }
+
+  $filename = time() . '_' . basename($_FILES['gambar']['name']);
+  $targetFile = $targetDir . $filename;
+
+  if (move_uploaded_file($_FILES['gambar']['tmp_name'], $targetFile)) {
+    $input['gambar'] = $filename;
+  } else {
+    $input['gambar'] = $_POST['gambar-lama'] ?? null;
+  }
+} else {
+  $input['gambar'] = $_POST['gambar-lama'] ?? null;
+}
+
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
 try {
   switch ($method) {
     case 'POST':
-      echo json_encode($jenis->insertData($input));
+      echo json_encode($id ? $jenis->updateData($id, $input) : $jenis->insertData($input));
       break;
     case 'GET':
       echo json_encode($id ? $jenis->getById($id) : $jenis->getAll());
-      break;
-    case 'PUT':
-      echo json_encode($jenis->updateData($id, $input));
       break;
     case 'DELETE':
       echo json_encode($jenis->deleteData($id));

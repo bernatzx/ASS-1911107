@@ -90,6 +90,27 @@ require_once __DIR__ . "/../../../app/init.php";
     const inputSandi = document.getElementById('sandi');
     const showSandi = document.getElementById('show-sandi');
 
+    (async () => {
+      let valid = false;
+      try {
+        const res = await fetch("<?= base('/api/auth.php') ?>", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ action: "me" }),
+        });
+        const data = await res.json();
+        sessionRole = data.role || "guest";
+        valid = !!data.valid;
+      } catch (err) {
+        console.error("Gagal memeriksa sesi:", err);
+      }
+
+      if (sessionRole === 'admin' || valid) {
+        window.location.href = "<?= base('src/views/beranda') ?>";
+      }
+    })()
+
     showSandi.addEventListener('change', () => {
       inputSandi.type = showSandi.checked ? 'text' : 'password';
     });
@@ -113,7 +134,7 @@ require_once __DIR__ . "/../../../app/init.php";
         }
       }
       try {
-        const res = await fetch("/api/auth.php", {
+        const res = await fetch("<?= base('/api/auth.php') ?>", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ action: "login", ...data })

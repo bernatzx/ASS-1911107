@@ -8,7 +8,7 @@ $halamanAktif = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $menu = [
   ["icon" => "fa-home", "label" => "Beranda", "url" => base("src/views/beranda"), "roles" => ["admin", "guest"]],
   ["icon" => "fa-earth-asia", "label" => "Peta Interaktif", "url" => base("src/views/peta"), "roles" => ["admin", "guest"]],
-  ["icon" => "fa-tree", "label" => "Data Pohon", "url" => base("src/views/pohon"), "roles" => ["admin"]],
+  ["icon" => "fa-tree", "label" => "Data Lokasi", "url" => base("src/views/lokasi"), "roles" => ["admin"]],
   ["icon" => "fa-list", "label" => "Data Jenis Pohon", "url" => base("src/views/jenis-pohon"), "roles" => ["admin"]],
 ];
 foreach ($menu as $col) {
