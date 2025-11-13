@@ -1,0 +1,25 @@
+# --- Sistem & editor ---
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.idea/
+.vscode/
+nbproject/
+
+# --- Uploads (hasil runtime, tidak perlu di repo) ---
+uploads/
+
+# --- File database backup / dump ---
+*.sql
+
+# --- Composer (jika pakai PHP dependency manager) ---
+vendor/
+composer.lock
+
+# --- Cache ---
+.cache/
+*.cache
